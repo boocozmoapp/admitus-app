@@ -1,0 +1,14 @@
+.claude/
+.env
+.env.*
+!.env.example
+node_modules/
+.next/
+out/
+build/
+coverage/
+*.log
+*.tsbuildinfo
+*.db
+*.db-shm
+*.db-wal

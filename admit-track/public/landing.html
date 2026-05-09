@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GradPilot — The Intelligent Global Admissions Workspace</title>
+<meta content="GradPilot is the only admissions tracker with AI-powered program discovery, 6-dimension fit scoring, supervisor research matching, and a full application pipeline — all in one workspace." name="description"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode:"class",
+    theme:{
+      extend:{
+        colors:{
+          "on-primary-container":"#fffbff","tertiary":"#006577","surface-container-highest":"#d9e3f9",
+          "surface-container-high":"#dee8ff","on-surface-variant":"#454653","background":"#f9f9ff",
+          "on-secondary":"#ffffff","on-secondary-fixed":"#21005d","primary-container":"#566bdc",
+          "primary":"#3c51c2","surface-tint":"#3f53c4","primary-fixed-dim":"#bac3ff",
+          "surface":"#f9f9ff","primary-fixed":"#dee0ff","secondary-fixed":"#e8ddff",
+          "error":"#ba1a1a","inverse-surface":"#273141","on-error":"#ffffff",
+          "on-background":"#121c2c","secondary-fixed-dim":"#cebdff","surface-bright":"#f9f9ff",
+          "inverse-on-surface":"#ebf1ff","on-secondary-fixed-variant":"#5126b0",
+          "surface-container-low":"#f0f3ff","on-surface":"#121c2c","surface-dim":"#d0daf0",
+          "on-tertiary-fixed":"#001f26","on-primary":"#ffffff","tertiary-fixed-dim":"#30d8fa",
+          "secondary":"#6640c7","surface-variant":"#d9e3f9","on-error-container":"#93000a",
+          "secondary-container":"#805ce1","tertiary-fixed":"#acecff","on-secondary-container":"#fffbff",
+          "surface-container-lowest":"#ffffff","on-tertiary-fixed-variant":"#004e5c",
+          "tertiary-container":"#008096","on-tertiary":"#ffffff","surface-container":"#e7eeff",
+          "on-primary-fixed":"#00105c","inverse-primary":"#bac3ff","outline":"#757685",
+          "on-primary-fixed-variant":"#2339ab","error-container":"#ffdad6",
+          "outline-variant":"#c5c5d5","on-tertiary-container":"#f9fdff"
+        },
+        borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","2xl":"1rem","full":"9999px"},
+        fontFamily:{
+          "display-stat":["DM Sans"],"muted-sm":["DM Sans"],"label-caps":["DM Sans"],
+          "h1":["DM Sans"],"h2":["DM Sans"],"body-main":["DM Sans"]
+        },
+        fontSize:{
+          "display-stat":["40px",{"lineHeight":"1.1","letterSpacing":"-0.01em","fontWeight":"600"}],
+          "muted-sm":["13px",{"lineHeight":"1.6","fontWeight":"400"}],
+          "label-caps":["12px",{"lineHeight":"1","letterSpacing":"0.1em","fontWeight":"700"}],
+          "h1":["28px",{"lineHeight":"1.2","letterSpacing":"-0.01em","fontWeight":"700"}],
+          "h2":["20px",{"lineHeight":"1.5","fontWeight":"500"}],
+          "body-main":["15px",{"lineHeight":"1.75","fontWeight":"400"}]
+        }
+      }
+    }
+  }
+</script>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24}
+  .material-symbols-outlined.fill{font-variation-settings:'FILL' 1,'wght' 300,'GRAD' 0,'opsz' 24}
+  .text-gradient{background:linear-gradient(135deg,#3c51c2,#6640c7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .bg-gradient-vivid{background:linear-gradient(135deg,#3c51c2,#6640c7)}
+  .shadow-soft{box-shadow:0 10px 40px -10px rgba(0,0,0,0.04)}
+  .shadow-hover{transition:all 0.4s ease}
+  .shadow-hover:hover{box-shadow:0 20px 50px -10px rgba(0,0,0,0.08);transform:translateY(-4px)}
+  .step-connector::after{content:'';position:absolute;top:28px;left:calc(50% + 28px);width:calc(100% - 56px);height:2px;background:linear-gradient(90deg,#3c51c2,#6640c7);opacity:.2}
+  @media(max-width:1023px){.step-connector::after{display:none}}
+  .ring-track{stroke:#e5e7eb}
+  .ring-fill-emerald{stroke:#10b981}
+  .ring-fill-amber{stroke:#f59e0b}
+  .ring-fill-primary{stroke:#3c51c2}
+  .mockup-card{background:#ffffff;border:1px solid #e8eaf0;border-radius:16px;box-shadow:0 4px 24px -4px rgba(0,0,0,0.06)}
+  .dim-dot-green{background:#10b981}
+  .dim-dot-amber{background:#f59e0b}
+  .dim-dot-gray{background:#9ca3af}
+  .badge-emerald{background:#f0fdf4;border:1px solid #bbf7d0;color:#15803d}
+  .badge-amber{background:#fffbeb;border:1px solid #fde68a;color:#b45309}
+  .badge-blue{background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8}
+  .badge-purple{background:#f5f3ff;border:1px solid #ddd6fe;color:#7c3aed}
+  .status-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 10px;border-radius:9999px;font-size:12px;font-weight:600}
+  .kanban-col{background:#f8faff;border:1px solid #e4e8f5;border-radius:12px;padding:12px}
+  .kanban-card{background:#fff;border:1px solid #eaecf5;border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:13px}
+</style>
+</head>
+<body class="bg-background text-on-background font-body-main antialiased selection:bg-primary-container selection:text-on-primary-container">
+
+<!-- ── NavBar ───────────────────────────────────────────────────────────────── -->
+<header class="bg-surface-container-lowest/80 backdrop-blur-md fixed top-0 w-full z-50 shadow-sm border-b border-outline-variant/10">
+  <div class="flex justify-between items-center h-20 px-6 max-w-7xl mx-auto">
+    <a class="font-h1 text-h1 font-bold text-primary tracking-tight" href="#">GradPilot</a>
+    <nav class="hidden md:flex items-center gap-6 font-body-main text-body-main">
+      <a class="text-on-surface-variant hover:text-primary transition-colors px-3 py-2" href="#features">Features</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors px-3 py-2" href="#how-it-works">How It Works</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors px-3 py-2" href="#ai">AI-Powered</a>
+    </nav>
+    <div class="flex items-center gap-2">
+      <a class="text-on-surface-variant font-body-main hover:text-primary transition-colors px-4 py-2" href="/login">Login</a>
+      <a class="bg-primary text-on-primary font-body-main rounded-xl px-6 py-2.5 shadow-sm hover:shadow-md hover:bg-surface-tint transition-all duration-300" href="/">Get Started Free</a>
+    </div>
+  </div>
+</header>
+
+<main class="pt-28 pb-24">
+
+<!-- ── Hero ─────────────────────────────────────────────────────────────────── -->
+<section class="px-6 max-w-7xl mx-auto py-24 md:py-32">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <div class="flex flex-col gap-8 pr-0 lg:pr-8">
+      <div class="inline-flex items-center gap-2 rounded-full bg-primary/8 border border-primary/20 px-4 py-1.5 w-fit">
+        <span class="material-symbols-outlined text-[16px] text-primary">auto_awesome</span>
+        <span class="text-xs font-semibold text-primary tracking-wide">AI-Powered · From Discovery to Decision</span>
+      </div>
+      <h1 class="font-display-stat text-display-stat text-on-background lg:text-[56px] leading-[1.1] tracking-tight">
+        The Global Admissions<br/>Workspace by <span class="text-gradient">GradPilot</span>
+      </h1>
+      <p class="font-h2 text-h2 text-on-surface-variant font-normal max-w-lg leading-relaxed">
+        Managing 8–15 programs across multiple countries is chaotic. GradPilot consolidates your entire journey — discovery, fit scoring, pipeline, supervisors, documents, and AI insights — into one intelligent workspace.
+      </p>
+      <div class="flex flex-wrap gap-4 pt-2">
+        <a class="bg-primary text-on-primary font-body-main rounded-xl px-8 py-3.5 shadow-sm hover:shadow-md hover:bg-surface-tint transition-all duration-300 active:scale-95 flex items-center gap-2" href="/">
+          Start Free — No Credit Card
+          <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+        </a>
+        <a class="bg-surface-container text-on-surface border border-outline-variant/30 font-body-main rounded-xl px-8 py-3.5 hover:bg-surface-container-high transition-all duration-300 active:scale-95" href="#how-it-works">
+          See How It Works
+        </a>
+      </div>
+      <!-- Quick trust signals -->
+      <div class="flex items-center gap-5 pt-2">
+        <div class="flex items-center gap-1.5 text-xs text-on-surface-variant">
+          <span class="material-symbols-outlined text-[16px] text-emerald-500 fill">check_circle</span>
+          Free to start
+        </div>
+        <div class="flex items-center gap-1.5 text-xs text-on-surface-variant">
+          <span class="material-symbols-outlined text-[16px] text-emerald-500 fill">check_circle</span>
+          50+ countries
+        </div>
+        <div class="flex items-center gap-1.5 text-xs text-on-surface-variant">
+          <span class="material-symbols-outlined text-[16px] text-emerald-500 fill">check_circle</span>
+          Real AI, not mock data
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero visual: mini app mockup -->
+    <div class="relative">
+      <!-- Background glow -->
+      <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-3xl blur-3xl scale-110"></div>
+      <div class="relative mockup-card p-5 space-y-3">
+        <!-- Dashboard header -->
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <p class="font-semibold text-sm" style="color:#121c2c">Good morning 👋</p>
+            <p class="text-xs" style="color:#757685">Today's snapshot across your 6 applications</p>
+          </div>
+          <div class="flex gap-2">
+            <div class="badge-emerald status-pill">2 Admitted</div>
+            <div class="badge-blue status-pill">3 Submitted</div>
+          </div>
+        </div>
+        <!-- Stat cards row -->
+        <div class="grid grid-cols-4 gap-2 mb-3">
+          <div style="background:#f0f3ff;border-radius:10px;padding:10px 8px;text-align:center">
+            <p class="font-bold text-lg" style="color:#3c51c2">6</p>
+            <p style="font-size:10px;color:#757685">Applications</p>
+          </div>
+          <div style="background:#fff7ed;border-radius:10px;padding:10px 8px;text-align:center">
+            <p class="font-bold text-lg" style="color:#ea580c">3</p>
+            <p style="font-size:10px;color:#757685">Due Soon</p>
+          </div>
+          <div style="background:#f0fdf4;border-radius:10px;padding:10px 8px;text-align:center">
+            <p class="font-bold text-lg" style="color:#16a34a">12</p>
+            <p style="font-size:10px;color:#757685">Tasks Done</p>
+          </div>
+          <div style="background:#faf5ff;border-radius:10px;padding:10px 8px;text-align:center">
+            <p class="font-bold text-lg" style="color:#9333ea">4</p>
+            <p style="font-size:10px;color:#757685">Supervisors</p>
+          </div>
+        </div>
+        <!-- Pipeline mini kanban -->
+        <div class="grid grid-cols-3 gap-2">
+          <div class="kanban-col">
+            <p style="font-size:10px;font-weight:700;color:#757685;margin-bottom:6px">RESEARCHING</p>
+            <div class="kanban-card"><span style="font-weight:600;color:#121c2c">TU Munich</span><br/><span style="color:#757685;font-size:11px">MSc CS · Germany</span></div>
+          </div>
+          <div class="kanban-col">
+            <p style="font-size:10px;font-weight:700;color:#757685;margin-bottom:6px">SUBMITTED</p>
+            <div class="kanban-card"><span style="font-weight:600;color:#121c2c">U of Toronto</span><br/><span style="color:#757685;font-size:11px">MEng · Canada</span></div>
+            <div class="kanban-card"><span style="font-weight:600;color:#121c2c">ETH Zürich</span><br/><span style="color:#757685;font-size:11px">MSc · Switzerland</span></div>
+          </div>
+          <div class="kanban-col">
+            <p style="font-size:10px;font-weight:700;color:#16a34a;margin-bottom:6px">ADMITTED 🎉</p>
+            <div class="kanban-card" style="border-color:#bbf7d0"><span style="font-weight:600;color:#121c2c">McGill</span><br/><span style="color:#757685;font-size:11px">MSc AI · Canada</span></div>
+          </div>
+        </div>
+        <!-- AI weekly summary pill -->
+        <div style="background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1px solid #ddd6fe;border-radius:10px;padding:10px 12px;display:flex;align-items:flex-start;gap:8px">
+          <span class="material-symbols-outlined text-[16px]" style="color:#7c3aed;margin-top:1px">auto_awesome</span>
+          <p style="font-size:12px;color:#454653;line-height:1.5"><strong style="color:#121c2c">AI Weekly Briefing:</strong> ETH Zürich deadline in 5 days — prioritize your SOP final draft. McGill reply expected within 2 weeks.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Stats Bar ─────────────────────────────────────────────────────────────── -->
+<section class="py-14 border-y border-outline-variant/10 bg-surface-container-low/50">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-10 text-center">
+      <div>
+        <p class="text-[42px] font-bold text-primary leading-none tracking-tight">50+</p>
+        <p class="text-sm text-on-surface-variant mt-2">Countries in AI Search</p>
+      </div>
+      <div>
+        <p class="text-[42px] font-bold text-secondary leading-none tracking-tight">6</p>
+        <p class="text-sm text-on-surface-variant mt-2">Fit Score Dimensions</p>
+      </div>
+      <div>
+        <p class="text-[42px] font-bold text-tertiary leading-none tracking-tight">AI</p>
+        <p class="text-sm text-on-surface-variant mt-2">Every Step — Search to Submission</p>
+      </div>
+      <div>
+        <p class="text-[42px] font-bold text-primary leading-none tracking-tight">0</p>
+        <p class="text-sm text-on-surface-variant mt-2">Deadlines Without Alerts</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Social Proof ───────────────────────────────────────────────────────────── -->
+<section class="py-20 bg-surface-container-lowest/50">
+  <div class="max-w-7xl mx-auto px-6">
+    <p class="text-center font-label-caps text-label-caps text-on-surface-variant uppercase tracking-[0.2em] mb-10">Used by students applying to</p>
+    <div class="flex justify-center items-center gap-12 md:gap-24 opacity-40 grayscale flex-wrap">
+      <span class="font-h1 text-h1 text-on-background font-bold tracking-tight">Stanford</span>
+      <span class="font-h1 text-h1 text-on-background font-bold tracking-tight">MIT</span>
+      <span class="font-h1 text-h1 text-on-background font-bold tracking-tight">ETH Zürich</span>
+      <span class="font-h1 text-h1 text-on-background font-bold tracking-tight">Oxford</span>
+      <span class="font-h1 text-h1 text-on-background font-bold tracking-tight">Toronto</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── Problem/Solution ───────────────────────────────────────────────────────── -->
+<section class="px-6 max-w-7xl mx-auto py-24 md:py-32">
+  <div class="text-center mb-12 max-w-3xl mx-auto">
+    <h2 class="font-display-stat text-display-stat text-on-background mb-6 tracking-tight">Escape the Spreadsheet Chaos</h2>
+    <p class="font-h2 text-h2 text-on-surface-variant font-normal leading-relaxed">
+      Juggling 10 university portals, scattered deadlines, unread emails, and a sprawling Google Sheet isn't a strategy — it's a crisis waiting to happen. GradPilot centralizes every requirement, document, supervisor, and deadline so nothing slips through the cracks.
+    </p>
+  </div>
+  <!-- Before/After pills -->
+  <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+    <div class="rounded-2xl border border-red-200 bg-red-50 p-6 space-y-3">
+      <p class="text-xs font-bold text-red-500 uppercase tracking-widest mb-4">Without GradPilot</p>
+      <div class="flex items-start gap-2.5 text-sm text-red-700"><span class="material-symbols-outlined text-[18px] text-red-400 shrink-0 mt-0.5">close</span> Spreadsheet with 20 tabs and broken formulas</div>
+      <div class="flex items-start gap-2.5 text-sm text-red-700"><span class="material-symbols-outlined text-[18px] text-red-400 shrink-0 mt-0.5">close</span> Missing a deadline buried in a 3-week-old email</div>
+      <div class="flex items-start gap-2.5 text-sm text-red-700"><span class="material-symbols-outlined text-[18px] text-red-400 shrink-0 mt-0.5">close</span> No idea which programs actually match your profile</div>
+      <div class="flex items-start gap-2.5 text-sm text-red-700"><span class="material-symbols-outlined text-[18px] text-red-400 shrink-0 mt-0.5">close</span> Forgetting to follow up with potential supervisors</div>
+      <div class="flex items-start gap-2.5 text-sm text-red-700"><span class="material-symbols-outlined text-[18px] text-red-400 shrink-0 mt-0.5">close</span> Uploading the wrong SOP version to three portals</div>
+    </div>
+    <div class="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 space-y-3">
+      <p class="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-4">With GradPilot</p>
+      <div class="flex items-start gap-2.5 text-sm text-emerald-700"><span class="material-symbols-outlined text-[18px] text-emerald-500 fill shrink-0 mt-0.5">check_circle</span> One Kanban pipeline for all applications</div>
+      <div class="flex items-start gap-2.5 text-sm text-emerald-700"><span class="material-symbols-outlined text-[18px] text-emerald-500 fill shrink-0 mt-0.5">check_circle</span> Urgent deadlines surfaced automatically with AI</div>
+      <div class="flex items-start gap-2.5 text-sm text-emerald-700"><span class="material-symbols-outlined text-[18px] text-emerald-500 fill shrink-0 mt-0.5">check_circle</span> 6-dimension fit score tells you where you stand</div>
+      <div class="flex items-start gap-2.5 text-sm text-emerald-700"><span class="material-symbols-outlined text-[18px] text-emerald-500 fill shrink-0 mt-0.5">check_circle</span> Supervisor tracker with research interest matching</div>
+      <div class="flex items-start gap-2.5 text-sm text-emerald-700"><span class="material-symbols-outlined text-[18px] text-emerald-500 fill shrink-0 mt-0.5">check_circle</span> Versioned document vault linked per application</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── How It Works ───────────────────────────────────────────────────────────── -->
+<section id="how-it-works" class="py-24 md:py-32 bg-surface-container-low/40 border-y border-outline-variant/10">
+  <div class="px-6 max-w-7xl mx-auto">
+    <div class="text-center mb-20 max-w-2xl mx-auto">
+      <p class="font-label-caps text-label-caps text-primary uppercase tracking-widest mb-4">Workflow</p>
+      <h2 class="font-display-stat text-display-stat text-on-background mb-4 tracking-tight">From Discovery to Decision</h2>
+      <p class="font-h2 text-h2 text-on-surface-variant font-normal leading-relaxed">A seamless four-step workflow designed around how applicants actually think.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <!-- Step 1 -->
+      <div class="relative step-connector">
+        <div class="flex flex-col gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center text-white font-bold text-xl shrink-0">1</div>
+          <h3 class="font-h1 text-[18px] text-on-background tracking-tight">Build Your Profile</h3>
+          <p class="text-sm text-on-surface-variant leading-relaxed">Set your target degree, field of study, preferred countries, IELTS/TOEFL/GRE scores, GPA, and budget. Create multiple profiles for different application tracks.</p>
+          <div class="flex flex-wrap gap-1.5 mt-1">
+            <span class="badge-blue status-pill">Masters / PhD</span>
+            <span class="badge-blue status-pill">IELTS · GPA</span>
+            <span class="badge-purple status-pill">Budget</span>
+          </div>
+        </div>
+      </div>
+      <!-- Step 2 -->
+      <div class="relative step-connector">
+        <div class="flex flex-col gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center text-white font-bold text-xl shrink-0">2</div>
+          <h3 class="font-h1 text-[18px] text-on-background tracking-tight">Discover &amp; Score</h3>
+          <p class="text-sm text-on-surface-variant leading-relaxed">AI searches universities globally and matches them against your profile across 6 weighted dimensions. Hover any score to see a full breakdown. Find potential supervisors with research interest matching.</p>
+          <div class="flex flex-wrap gap-1.5 mt-1">
+            <span class="badge-emerald status-pill">Fit Score</span>
+            <span class="badge-emerald status-pill">AI Search</span>
+            <span class="badge-purple status-pill">Supervisors</span>
+          </div>
+        </div>
+      </div>
+      <!-- Step 3 -->
+      <div class="relative step-connector">
+        <div class="flex flex-col gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-tertiary flex items-center justify-center text-white font-bold text-xl shrink-0">3</div>
+          <h3 class="font-h1 text-[18px] text-on-background tracking-tight">Track &amp; Execute</h3>
+          <p class="text-sm text-on-surface-variant leading-relaxed">Move applications through your Kanban pipeline. Paste a program URL — AI auto-fills every detail. Manage tasks, log emails, and track deadlines with urgency color-coding.</p>
+          <div class="flex flex-wrap gap-1.5 mt-1">
+            <span class="badge-blue status-pill">Kanban</span>
+            <span class="badge-amber status-pill">Deadlines</span>
+            <span class="badge-blue status-pill">Quick Add</span>
+          </div>
+        </div>
+      </div>
+      <!-- Step 4 -->
+      <div class="flex flex-col gap-4">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-xl shrink-0">4</div>
+        <h3 class="font-h1 text-[18px] text-on-background tracking-tight">Insights &amp; Decisions</h3>
+        <p class="text-sm text-on-surface-variant leading-relaxed">Receive a weekly AI briefing with data from your actual pipeline — upcoming deadlines, overdue items, submitted applications awaiting decisions, and next actions to take.</p>
+        <div class="flex flex-wrap gap-1.5 mt-1">
+          <span class="badge-purple status-pill">AI Briefing</span>
+          <span class="badge-emerald status-pill">Risk Signals</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Features ───────────────────────────────────────────────────────────────── -->
+<section id="features" class="px-6 max-w-7xl mx-auto py-24 md:py-32">
+  <div class="text-center mb-20">
+    <p class="font-label-caps text-label-caps text-primary uppercase tracking-widest mb-4">Features</p>
+    <h2 class="font-display-stat text-display-stat text-on-background mb-4 tracking-tight">Everything in One Workspace</h2>
+    <p class="font-h2 text-h2 text-on-surface-variant font-normal leading-relaxed">Built specifically for international graduate applicants managing complex, multi-country pipelines.</p>
+  </div>
+
+  <!-- Row 1: 3 cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+    <div class="bg-surface-container-lowest rounded-2xl p-8 shadow-soft shadow-hover border border-outline-variant/10">
+      <div class="w-12 h-12 rounded-2xl bg-primary/8 flex items-center justify-center mb-6 text-primary">
+        <span class="material-symbols-outlined text-[24px]">radar</span>
+      </div>
+      <h3 class="font-h1 text-[20px] text-on-background mb-3 tracking-tight">AI Program Discovery</h3>
+      <p class="font-body-main text-body-main text-on-surface-variant leading-relaxed">
+        Search universities globally with natural language. Results stream in real-time with personalized fit scores — hover any score to see a 6-dimension breakdown: country, degree, language test, GPA, budget, and scholarship availability.
+      </p>
+    </div>
+    <div class="bg-surface-container-lowest rounded-2xl p-8 shadow-soft shadow-hover border border-outline-variant/10">
+      <div class="w-12 h-12 rounded-2xl bg-secondary/8 flex items-center justify-center mb-6 text-secondary">
+        <span class="material-symbols-outlined text-[24px]">manage_accounts</span>
+      </div>
+      <h3 class="font-h1 text-[20px] text-on-background mb-3 tracking-tight">Supervisor Intelligence</h3>
+      <p class="font-body-main text-body-main text-on-surface-variant leading-relaxed">
+        Track potential supervisors and research professors. Our AI computes a research match score based on your field of study vs. their published interests. Log contact history, schedule follow-ups, and add supervisors directly from faculty search.
+      </p>
+    </div>
+    <div class="bg-surface-container-lowest rounded-2xl p-8 shadow-soft shadow-hover border border-outline-variant/10">
+      <div class="w-12 h-12 rounded-2xl bg-tertiary/8 flex items-center justify-center mb-6 text-tertiary">
+        <span class="material-symbols-outlined text-[24px]">view_kanban</span>
+      </div>
+      <h3 class="font-h1 text-[20px] text-on-background mb-3 tracking-tight">Pipeline &amp; Deadlines</h3>
+      <p class="font-body-main text-body-main text-on-surface-variant leading-relaxed">
+        Visualize every application from Researching → Preparing → Submitted → Decision with a Kanban board. Deadlines are color-coded by urgency: overdue in red, due within 7 days in amber, safe in green. Never lose track.
+      </p>
+    </div>
+  </div>
+
+  <!-- Row 2: 3 cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+    <div class="bg-surface-container-lowest rounded-2xl p-8 shadow-soft shadow-hover border border-outline-variant/10">
+      <div class="w-12 h-12 rounded-2xl bg-primary/8 flex items-center justify-center mb-6 text-primary">
+        <span class="material-symbols-outlined text-[24px]">link</span>
+      </div>
+      <h3 class="font-h1 text-[20px] text-on-background mb-3 tracking-tight">Quick Add from URL</h3>
+      <p class="font-body-main text-body-main text-on-surface-variant leading-relaxed">
+        Paste any university program URL — GradPilot fetches the page, strips it down, and sends it to an LLM that extracts deadline, tuition, IELTS requirement, GPA minimum, and more. Review the extracted details, then save in one click.
+      </p>
+    </div>
+    <div class="bg-surface-container-lowest rounded-2xl p-8 shadow-soft shadow-hover border border-outline-variant/10">
+      <div class="w-12 h-12 rounded-2xl bg-secondary/8 flex items-center justify-center mb-6 text-secondary">
+        <span class="material-symbols-outlined text-[24px]">smart_toy</span>
+      </div>
+      <h3 class="font-h1 text-[20px] text-on-background mb-3 tracking-tight">AI Program Chat</h3>
+      <p class="font-body-main text-body-main text-on-surface-variant leading-relaxed">
+        Open a chat window on any program and ask anything — research focus, admission tips, career outcomes, funding. The bot is grounded in the program's live page, so answers are specific, not generic. Ask about faculty, curriculum, or visa processes.
+      </p>
+    </div>
+    <div class="bg-surface-container-lowest rounded-2xl p-8 shadow-soft shadow-hover border border-outline-variant/10">
+      <div class="w-12 h-12 rounded-2xl bg-primary/8 flex items-center justify-center mb-6 text-primary">
+        <span class="material-symbols-outlined text-[24px]">mark_email_unread</span>
+      </div>
+      <h3 class="font-h1 text-[20px] text-on-background mb-3 tracking-tight">AI Email Triage</h3>
+      <p class="font-body-main text-body-main text-on-surface-variant leading-relaxed">
+        Paste any admissions email and AI extracts the deadline, required action, university name, sentiment (positive / neutral / negative), and email type — admission, rejection, interview invite, or document request. Logged to your email history instantly.
+      </p>
+    </div>
+  </div>
+
+  <!-- Row 3: 2 cards centered -->
+  <div class="grid grid-cols-1 md:grid-cols-2 max-w-3xl mx-auto gap-6">
+    <div class="bg-surface-container-lowest rounded-2xl p-8 shadow-soft shadow-hover border border-outline-variant/10">
+      <div class="w-12 h-12 rounded-2xl bg-tertiary/8 flex items-center justify-center mb-6 text-tertiary">
+        <span class="material-symbols-outlined text-[24px]">folder_managed</span>
+      </div>
+      <h3 class="font-h1 text-[20px] text-on-background mb-3 tracking-tight">Document Vault</h3>
+      <p class="font-body-main text-body-main text-on-surface-variant leading-relaxed">
+        Store versioned SOPs, CVs, transcripts, and LORs in one place. Mark items as Draft or Final. Link documents to specific applications so you always know what's submitted where.
+      </p>
+    </div>
+    <div class="bg-surface-container-lowest rounded-2xl p-8 shadow-soft shadow-hover border border-outline-variant/10">
+      <div class="w-12 h-12 rounded-2xl bg-secondary/8 flex items-center justify-center mb-6 text-secondary">
+        <span class="material-symbols-outlined text-[24px]">switch_account</span>
+      </div>
+      <h3 class="font-h1 text-[20px] text-on-background mb-3 tracking-tight">Multi-Profile Management</h3>
+      <p class="font-body-main text-body-main text-on-surface-variant leading-relaxed">
+        Applying to CS in Canada and Policy in Europe simultaneously? Create separate profiles with different country targets, score requirements, and budgets. Fit scores across the app update automatically when you switch.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Feature Spotlight: Fit Scoring ─────────────────────────────────────────── -->
+<section class="py-24 md:py-32 bg-surface-container-low/50 border-y border-outline-variant/10">
+  <div class="px-6 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <!-- LEFT: UI Mockup -->
+      <div class="relative">
+        <div class="absolute -top-16 -left-16 w-48 h-48 bg-primary/8 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-16 -right-16 w-48 h-48 bg-secondary/8 rounded-full blur-3xl"></div>
+        <div class="relative space-y-4">
+          <!-- Program result card with fit score -->
+          <div class="mockup-card p-5">
+            <div class="flex items-start justify-between gap-3 mb-4">
+              <div>
+                <p class="font-semibold text-sm" style="color:#121c2c">MSc Computer Science</p>
+                <p class="text-xs" style="color:#757685">📍 University of Toronto · Toronto, Canada</p>
+              </div>
+              <!-- Fit Score Ring -->
+              <div class="relative flex items-center justify-center shrink-0">
+                <svg width="56" height="56" style="transform:rotate(-90deg)">
+                  <circle cx="28" cy="28" r="22" fill="none" stroke-width="4" stroke="#e5e7eb"/>
+                  <circle cx="28" cy="28" r="22" fill="none" stroke-width="4"
+                    stroke-dasharray="138.2" stroke-dashoffset="27.6"
+                    stroke-linecap="round" stroke="#10b981"/>
+                </svg>
+                <span style="position:absolute;font-size:12px;font-weight:700;color:#059669">80</span>
+              </div>
+            </div>
+            <!-- Dimension breakdown (tooltip-style) -->
+            <div style="background:#f9fafb;border:1px solid #f0f0f0;border-radius:10px;padding:12px">
+              <p style="font-size:10px;font-weight:700;color:#9ca3af;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em">Profile Fit Breakdown</p>
+              <div class="space-y-1.5">
+                <div style="display:flex;align-items:center;gap:8px;font-size:12px">
+                  <span style="height:7px;width:7px;border-radius:50%;background:#10b981;flex-shrink:0"></span>
+                  <span style="flex:1;color:#6b7280">Country Match</span>
+                  <span style="font-weight:600;color:#111827;font-variant-numeric:tabular-nums">25/25</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:12px">
+                  <span style="height:7px;width:7px;border-radius:50%;background:#10b981;flex-shrink:0"></span>
+                  <span style="flex:1;color:#6b7280">Degree Level</span>
+                  <span style="font-weight:600;color:#111827">15/15</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:12px">
+                  <span style="height:7px;width:7px;border-radius:50%;background:#10b981;flex-shrink:0"></span>
+                  <span style="flex:1;color:#6b7280">IELTS Score</span>
+                  <span style="font-weight:600;color:#111827">20/20</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:12px">
+                  <span style="height:7px;width:7px;border-radius:50%;background:#f59e0b;flex-shrink:0"></span>
+                  <span style="flex:1;color:#6b7280">GPA</span>
+                  <span style="font-weight:600;color:#111827">10/20</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:12px">
+                  <span style="height:7px;width:7px;border-radius:50%;background:#10b981;flex-shrink:0"></span>
+                  <span style="flex:1;color:#6b7280">Budget</span>
+                  <span style="font-weight:600;color:#111827">15/15</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:12px">
+                  <span style="height:7px;width:7px;border-radius:50%;background:#10b981;flex-shrink:0"></span>
+                  <span style="flex:1;color:#6b7280">Scholarship</span>
+                  <span style="font-weight:600;color:#111827">5/5</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Second card with lower score -->
+          <div class="mockup-card p-5" style="opacity:0.7">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="font-semibold text-sm" style="color:#121c2c">PhD Computer Engineering</p>
+                <p class="text-xs" style="color:#757685">📍 TU Munich · Munich, Germany</p>
+              </div>
+              <div class="relative flex items-center justify-center shrink-0">
+                <svg width="56" height="56" style="transform:rotate(-90deg)">
+                  <circle cx="28" cy="28" r="22" fill="none" stroke-width="4" stroke="#e5e7eb"/>
+                  <circle cx="28" cy="28" r="22" fill="none" stroke-width="4"
+                    stroke-dasharray="138.2" stroke-dashoffset="69.1"
+                    stroke-linecap="round" stroke="#f59e0b"/>
+                </svg>
+                <span style="position:absolute;font-size:12px;font-weight:700;color:#d97706">50</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Copy -->
+      <div>
+        <p class="font-label-caps text-label-caps text-primary uppercase tracking-widest mb-4">Personalized Matching</p>
+        <h2 class="font-display-stat text-display-stat text-on-background mb-6 tracking-tight">Know Exactly Where You Stand</h2>
+        <p class="font-h2 text-h2 text-on-surface-variant font-normal leading-relaxed mb-6">
+          Every program in your search results shows a live <strong class="text-on-background">fit score</strong> calculated from your active profile. It's not a random number — it's built from six real dimensions that actually predict admission likelihood.
+        </p>
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-lg bg-primary/8 flex items-center justify-center text-primary shrink-0">
+              <span class="material-symbols-outlined text-[16px]">flag</span>
+            </div>
+            <div>
+              <p class="font-semibold text-sm text-on-background">Country Match (25 pts)</p>
+              <p class="text-sm text-on-surface-variant">Is this country in your target list?</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-lg bg-secondary/8 flex items-center justify-center text-secondary shrink-0">
+              <span class="material-symbols-outlined text-[16px]">school</span>
+            </div>
+            <div>
+              <p class="font-semibold text-sm text-on-background">Language Test (20 pts)</p>
+              <p class="text-sm text-on-surface-variant">Your IELTS/TOEFL vs. the program minimum</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-lg bg-tertiary/8 flex items-center justify-center text-tertiary shrink-0">
+              <span class="material-symbols-outlined text-[16px]">grade</span>
+            </div>
+            <div>
+              <p class="font-semibold text-sm text-on-background">GPA + Budget + Scholarship (40 pts)</p>
+              <p class="text-sm text-on-surface-variant">Academic fit and financial feasibility combined</p>
+            </div>
+          </div>
+        </div>
+        <p class="text-sm text-on-surface-variant italic border-l-2 border-primary/30 pl-4">
+          Hover any score ring to see the full breakdown tooltip. Scores update instantly when you switch active profiles.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Feature Spotlight: Supervisor Intelligence ─────────────────────────────── -->
+<section class="px-6 max-w-7xl mx-auto py-24 md:py-32">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <!-- LEFT: Copy -->
+    <div>
+      <p class="font-label-caps text-label-caps text-secondary uppercase tracking-widest mb-4">Research Tracking</p>
+      <h2 class="font-display-stat text-display-stat text-on-background mb-6 tracking-tight">Your Supervisor<br/>Intelligence Layer</h2>
+      <p class="font-h2 text-h2 text-on-surface-variant font-normal leading-relaxed mb-8">
+        For graduate applicants, finding the right supervisor is half the battle. GradPilot tracks potential professors, scores their research alignment with your field, and keeps your outreach history organized so you never cold-email someone twice.
+      </p>
+      <div class="space-y-5">
+        <div class="flex items-start gap-3">
+          <div class="w-8 h-8 rounded-lg bg-secondary/8 flex items-center justify-center text-secondary shrink-0 mt-0.5">
+            <span class="material-symbols-outlined text-[16px]">psychology</span>
+          </div>
+          <div>
+            <p class="font-semibold text-sm text-on-background">Research Match Score</p>
+            <p class="text-sm text-on-surface-variant">AI compares a supervisor's published research interests against your field of study and scores the overlap. Machine learning student? CS supervisors working on NLP score highest.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <div class="w-8 h-8 rounded-lg bg-primary/8 flex items-center justify-center text-primary shrink-0 mt-0.5">
+            <span class="material-symbols-outlined text-[16px]">group_add</span>
+          </div>
+          <div>
+            <p class="font-semibold text-sm text-on-background">Add from Faculty Search</p>
+            <p class="text-sm text-on-surface-variant">AI-fetches faculty from any university in one click. See match scores for each professor before you reach out. Save them directly to your supervisor tracker.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <div class="w-8 h-8 rounded-lg bg-tertiary/8 flex items-center justify-center text-tertiary shrink-0 mt-0.5">
+            <span class="material-symbols-outlined text-[16px]">timeline</span>
+          </div>
+          <div>
+            <p class="font-semibold text-sm text-on-background">Contact History &amp; Status</p>
+            <p class="text-sm text-on-surface-variant">Track each supervisor through stages: Not Contacted → Contacted → Replied → Meeting Scheduled → Positive. Get alerts when follow-up is overdue.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Supervisor card mockups -->
+    <div class="space-y-4">
+      <!-- Card 1: High match -->
+      <div class="mockup-card p-5">
+        <div class="flex items-start justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#eff6ff,#ddd6fe);display:flex;align-items:center;justify-content:center;font-weight:700;color:#3c51c2;font-size:14px">SC</div>
+            <div>
+              <p class="font-semibold text-sm" style="color:#121c2c">Dr. Sarah Chen</p>
+              <p class="text-xs" style="color:#757685">Associate Prof · CS · University of Toronto</p>
+            </div>
+          </div>
+          <div style="background:#f0fdf4;border:1px solid #bbf7d0;color:#15803d;font-size:11px;font-weight:700;padding:3px 10px;border-radius:9999px;display:flex;align-items:center;gap:4px;white-space:nowrap">
+            ✦ 88% match
+          </div>
+        </div>
+        <p class="text-xs" style="color:#9ca3af;margin-bottom:10px">Machine Learning, NLP, Computer Vision, Deep Learning</p>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="background:#eff6ff;color:#1d4ed8;font-size:11px;font-weight:600;padding:2px 10px;border-radius:9999px">Contacted</span>
+          <span style="font-size:11px;color:#9ca3af">2 days ago</span>
+          <span style="margin-left:auto;font-size:11px;color:#f59e0b;font-weight:600">⚠ Follow up soon</span>
+        </div>
+      </div>
+
+      <!-- Card 2: Medium match -->
+      <div class="mockup-card p-5">
+        <div class="flex items-start justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#fdf4ff,#ede9fe);display:flex;align-items:center;justify-content:center;font-weight:700;color:#9333ea;font-size:14px">RK</div>
+            <div>
+              <p class="font-semibold text-sm" style="color:#121c2c">Prof. Ravi Kumar</p>
+              <p class="text-xs" style="color:#757685">Professor · AI Lab · ETH Zürich</p>
+            </div>
+          </div>
+          <div style="background:#fffbeb;border:1px solid #fde68a;color:#b45309;font-size:11px;font-weight:700;padding:3px 10px;border-radius:9999px;display:flex;align-items:center;gap:4px">
+            ✦ 62% match
+          </div>
+        </div>
+        <p class="text-xs" style="color:#9ca3af;margin-bottom:10px">Robotics, Embedded Systems, Computer Vision</p>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="background:#f5f3ff;color:#7c3aed;font-size:11px;font-weight:600;padding:2px 10px;border-radius:9999px">Meeting Scheduled</span>
+          <span style="font-size:11px;color:#9ca3af">Next Thursday</span>
+        </div>
+      </div>
+
+      <!-- Card 3: Not contacted yet -->
+      <div class="mockup-card p-5" style="opacity:0.6">
+        <div class="flex items-start justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <div style="width:40px;height:40px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-weight:700;color:#6b7280;font-size:14px">ML</div>
+            <div>
+              <p class="font-semibold text-sm" style="color:#121c2c">Dr. Marie Laurent</p>
+              <p class="text-xs" style="color:#757685">Assoc. Prof · Data Science · McGill</p>
+            </div>
+          </div>
+          <div style="background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;font-size:11px;font-weight:700;padding:3px 10px;border-radius:9999px">
+            ✦ 75% match
+          </div>
+        </div>
+        <p class="text-xs" style="color:#9ca3af">Statistics, Big Data, Predictive Modelling</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── AI Deep Dive ────────────────────────────────────────────────────────────── -->
+<section id="ai" class="py-24 md:py-32 bg-surface-container-low/50 border-y border-outline-variant/10">
+  <div class="px-6 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <!-- LEFT: Feature list cards -->
+      <div class="order-2 lg:order-1 relative rounded-3xl overflow-hidden border border-outline-variant/10 bg-surface-container-lowest p-8 md:p-10">
+        <div class="absolute -top-20 -left-20 w-56 h-56 bg-secondary/8 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-20 -right-20 w-56 h-56 bg-primary/8 rounded-full blur-3xl"></div>
+        <div class="relative z-10 space-y-7">
+          <div class="flex items-start gap-4">
+            <div class="w-11 h-11 rounded-full bg-surface-container flex items-center justify-center shrink-0 text-primary">
+              <span class="material-symbols-outlined text-[20px]">text_fields</span>
+            </div>
+            <div>
+              <h4 class="font-h2 text-h2 text-on-background font-semibold mb-1">Natural Language Tasks</h4>
+              <p class="font-body-main text-body-main text-on-surface-variant">Type "Follow up with McGill admissions by next Friday — urgent" and AI parses it into a structured task with the correct title, due date, and priority. No forms to fill.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-11 h-11 rounded-full bg-surface-container flex items-center justify-center shrink-0 text-secondary">
+              <span class="material-symbols-outlined text-[20px]">query_stats</span>
+            </div>
+            <div>
+              <h4 class="font-h2 text-h2 text-on-background font-semibold mb-1">Weekly AI Briefing</h4>
+              <p class="font-body-main text-body-main text-on-surface-variant">Every week, a fresh briefing built from your actual data — overdue deadlines, upcoming decision windows, submitted apps with no response in 3+ weeks, and your most urgent next action.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-11 h-11 rounded-full bg-surface-container flex items-center justify-center shrink-0 text-tertiary">
+              <span class="material-symbols-outlined text-[20px]">link</span>
+            </div>
+            <div>
+              <h4 class="font-h2 text-h2 text-on-background font-semibold mb-1">URL-to-Application in Seconds</h4>
+              <p class="font-body-main text-body-main text-on-surface-variant">Paste any program page URL. GradPilot fetches and parses the page with AI, extracts all relevant details (deadline, tuition, requirements), shows you a review, and creates the application in one click.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- RIGHT: Copy -->
+      <div class="order-1 lg:order-2">
+        <p class="font-label-caps text-label-caps text-primary uppercase tracking-widest mb-4">Intelligence at Every Step</p>
+        <h2 class="font-display-stat text-display-stat text-on-background mb-6 tracking-tight">Real AI. Not a Gimmick.</h2>
+        <p class="font-h2 text-h2 text-on-surface-variant font-normal leading-relaxed mb-8">
+          GradPilot uses LLMs throughout the product — not to generate fake summaries, but to process real data from your applications, programs, emails, and deadlines. Every AI output is grounded in something concrete.
+        </p>
+        <div class="space-y-3 mb-8">
+          <div class="flex items-center gap-2.5 text-sm text-on-surface-variant">
+            <span class="material-symbols-outlined text-[18px] text-primary fill">check_circle</span>
+            Weekly summary reads your actual pipeline, not a template
+          </div>
+          <div class="flex items-center gap-2.5 text-sm text-on-surface-variant">
+            <span class="material-symbols-outlined text-[18px] text-primary fill">check_circle</span>
+            Program chat is grounded in that program's live webpage
+          </div>
+          <div class="flex items-center gap-2.5 text-sm text-on-surface-variant">
+            <span class="material-symbols-outlined text-[18px] text-primary fill">check_circle</span>
+            Fit scores use your actual IELTS score and budget — not assumptions
+          </div>
+          <div class="flex items-center gap-2.5 text-sm text-on-surface-variant">
+            <span class="material-symbols-outlined text-[18px] text-primary fill">check_circle</span>
+            Model cascade fallbacks — if one model is rate-limited, the next kicks in
+          </div>
+        </div>
+        <a class="text-primary font-body-main font-semibold hover:text-surface-tint transition-colors flex items-center gap-2" href="/">
+          Try it yourself — it's free
+          <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Testimonial ─────────────────────────────────────────────────────────────── -->
+<section class="bg-surface-container-lowest/30 py-24 md:py-32">
+  <div class="px-6 max-w-4xl mx-auto">
+    <div class="bg-surface-container-lowest rounded-3xl p-10 md:p-14 shadow-soft border border-outline-variant/10 relative overflow-hidden">
+      <div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-bl-full -z-0 blur-3xl"></div>
+      <div class="relative z-10 flex flex-col md:flex-row gap-10 items-center">
+        <img alt="Student testimonial" class="w-28 h-28 rounded-full object-cover shadow-sm border border-outline-variant/20 shrink-0"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyw2uOT_KmQXnpsbJ0ct9eODsCdNRQkWwqu4v2gN7mEuIVTLaOu1aWx675VIDkPiiqsdIe_V62UFijGjnd7TZYpD2N2ASxwxOg11C-XYxp3ZKb3oOIX8mLnp2XSqStHQs6pAl-J0ocOA0nN6W0n9WRS_3SAyNtSWV9cuCaCOi1fdaCqcJtq4yx1a5AJz0W4d7176qotZz10oxQdiTyrhNRzs-a47MsarE-1Zv7Nmi2ux7RavbjQ_onCQX8RZr8O41sIPzLKeRERp8"/>
+        <div>
+          <p class="font-h2 text-[22px] text-on-background italic mb-8 leading-relaxed font-normal">
+            "The fit score breakdown was a game changer for me. I could see in one glance that my IELTS was fine for every Canadian program but my GPA was borderline for two. That saved me weeks of spreadsheet work and helped me target my applications properly."
+          </p>
+          <div>
+            <p class="font-h2 text-h2 text-on-background font-semibold tracking-tight">Ayesha Malik</p>
+            <p class="font-body-main text-body-main text-on-surface-variant mt-1">MSc Data Science applicant · 4 offers across Canada &amp; Europe</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Final CTA ───────────────────────────────────────────────────────────────── -->
+<section class="px-6 max-w-4xl mx-auto pb-24 md:pb-32 text-center">
+  <div class="rounded-3xl bg-gradient-vivid p-12 md:p-16 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10" style="background:radial-gradient(circle at 30% 50%,white,transparent 60%)"></div>
+    <div class="relative z-10">
+      <h2 class="font-display-stat text-display-stat text-white mb-4 tracking-tight">Ready to get admitted?</h2>
+      <p class="font-h2 text-h2 text-white/80 font-normal mb-10 max-w-xl mx-auto leading-relaxed">
+        Join students who are replacing chaotic spreadsheets with an intelligent admissions workspace. Free to start, no credit card needed.
+      </p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <a class="bg-white text-primary font-h2 text-body-main rounded-xl px-10 py-3.5 shadow-sm hover:shadow-md transition-all duration-300 active:scale-95 font-semibold" href="/">
+          Start Your Journey Free
+        </a>
+        <a class="bg-white/15 text-white border border-white/30 font-h2 text-body-main rounded-xl px-10 py-3.5 hover:bg-white/25 transition-all duration-300 active:scale-95" href="#features">
+          Explore Features
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ── Footer ─────────────────────────────────────────────────────────────────── -->
+<footer class="bg-surface-container-lowest py-16 border-t border-outline-variant/10">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 px-6 max-w-7xl mx-auto">
+    <div class="col-span-1 lg:col-span-2">
+      <span class="font-h2 text-h2 font-bold text-primary block mb-4 tracking-tight">GradPilot</span>
+      <p class="font-muted-sm text-muted-sm text-on-surface-variant max-w-sm leading-relaxed">
+        The intelligent global admissions workspace. AI-powered discovery, 6-dimension fit scoring, supervisor tracking, and a full application pipeline — all free.
+      </p>
+      <div class="flex flex-wrap gap-3 mt-6">
+        <span class="badge-blue status-pill">AI-Powered</span>
+        <span class="badge-emerald status-pill">50+ Countries</span>
+        <span class="badge-purple status-pill">Free to Start</span>
+      </div>
+      <p class="font-muted-sm text-[12px] text-on-surface-variant/60 mt-8">© 2025 GradPilot. All rights reserved.</p>
+    </div>
+    <div class="col-span-1">
+      <h4 class="font-h2 text-[14px] text-on-background font-semibold mb-5 tracking-wide uppercase">Product</h4>
+      <ul class="flex flex-col gap-3">
+        <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#features">Features</a></li>
+        <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#how-it-works">How It Works</a></li>
+        <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#ai">AI Capabilities</a></li>
+        <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="/">Launch App</a></li>
+      </ul>
+    </div>
+    <div class="col-span-1">
+      <h4 class="font-h2 text-[14px] text-on-background font-semibold mb-5 tracking-wide uppercase">Company</h4>
+      <ul class="flex flex-col gap-3">
+        <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+        <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a></li>
+        <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Contact</a></li>
+        <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Support</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
