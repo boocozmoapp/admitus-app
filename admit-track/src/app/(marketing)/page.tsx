@@ -200,27 +200,27 @@ export default function LandingPage() {
               transform: "translate3d(calc(var(--shift-x) * .45), calc(var(--shift-y) * .45), 0)",
             }}
           />
-          <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[0.82fr_1.18fr]">
-            <div>
+          <div className="relative mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[0.74fr_1.26fr]">
+            <div className="max-w-xl">
               <p className="mb-6 text-xs font-semibold uppercase tracking-[0.22em] text-[#6A9A9A]">Latest admissions intel through specialized LLMs</p>
-              <h1 className="font-heading text-5xl font-extrabold leading-none tracking-tight text-[#F4F2DC] sm:text-6xl lg:text-[60px]">
+              <h1 className="font-heading text-5xl font-extrabold leading-none tracking-tight text-[#F4F2DC] sm:text-6xl lg:text-[56px]">
                 Find programs
                 <span className="block text-[#F7E28B]">before you <span className="text-[#AAD8D8]">apply.</span></span>
               </h1>
-              <p className="mt-7 max-w-md text-[15px] leading-7 text-[#AAD8D8]/72">
-                {activeSlide === 0 ? generalAdmitusDescription : slide.desc}
-              </p>
-              <div className="mt-6 max-w-md border-l border-[#F7E28B]/50 pl-4">
+              <div className="mt-8 border border-[#AAD8D8]/12 bg-[#041C20]/72 p-5 backdrop-blur">
                 <p className="text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: slide.accent }}>
                   {activeSlide === 0 ? "What AdmitUs does" : slide.eyebrow}
                 </p>
-                <p className="mt-2 text-sm leading-6 text-[#F4F2DC]/82">
+                <h2 className="mt-3 font-heading text-2xl font-extrabold tracking-tight text-[#F4F2DC]">
+                  {activeSlide === 0 ? "A smarter way to start." : slide.title}
+                </h2>
+                <p className="mt-3 text-sm leading-7 text-[#AAD8D8]/76">
                   {activeSlide === 0
-                    ? "Start with program discovery, then move into applications, professor outreach, documents, deadlines, and funding strategy without leaving the workspace."
+                    ? generalAdmitusDescription
                     : slide.desc}
                 </p>
               </div>
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link href="/login">
                   <Button size="lg" className="rounded-none bg-[#F7E28B] px-7 font-heading text-[#022226] hover:bg-[#AAD8D8]">
                     Get started - it is free <ArrowRight className="h-4 w-4" />
@@ -233,22 +233,47 @@ export default function LandingPage() {
             </div>
 
             <div className="relative">
-              <div className="mb-4 flex items-center justify-between gap-4">
-                <div className="flex min-w-0 items-center gap-3">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center border border-[#AAD8D8]/20 bg-[#1A4040]" style={{ color: slide.accent }}>
-                    <Icon className="h-5 w-5" />
+              <div className="border border-[#AAD8D8]/16 bg-[#071F22]/88 p-2 shadow-[0_28px_90px_rgba(0,0,0,.34)] backdrop-blur">
+                <div className="flex h-8 items-center gap-2 border-b border-[#AAD8D8]/10 px-3">
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#F76363]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#F7E28B]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#40E0B2]" />
+                  <span className="ml-3 truncate text-[10px] uppercase tracking-[0.15em] text-[#6A9A9A]">admitus workspace</span>
+                  <span className="ml-auto hidden items-center gap-2 text-[10px] uppercase tracking-[0.14em] text-[#AAD8D8]/58 sm:flex">
+                    <Icon className="h-3.5 w-3.5" style={{ color: slide.accent }} />
+                    {slide.eyebrow}
                   </span>
-                  <div className="min-w-0">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6A9A9A]">{slide.eyebrow}</p>
-                    <h2 className="truncate font-heading text-xl font-extrabold tracking-tight text-[#F4F2DC]">{slide.title}</h2>
-                  </div>
+                </div>
+                <div className="min-h-[350px] bg-[#022226] p-4 sm:p-6">
+                  <ProductPreview kind={slide.preview as PreviewKind} accent={slide.accent} />
+                </div>
+              </div>
+              <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="grid flex-1 grid-cols-5 gap-2">
+                  {showcaseSlides.map((item, index) => {
+                    const ItemIcon = item.icon;
+                    return (
+                      <button
+                        key={item.eyebrow}
+                        type="button"
+                        aria-label={`Show ${item.eyebrow}`}
+                        onClick={() => setActiveSlide(index)}
+                        className={cn(
+                          "group h-10 border border-[#AAD8D8]/12 bg-[#1A4040]/54 text-[#6A9A9A] transition-all hover:border-[#AAD8D8]/35 hover:text-[#F4F2DC]",
+                          index === activeSlide && "border-[#F7E28B]/70 bg-[#F7E28B] text-[#022226]"
+                        )}
+                      >
+                        <ItemIcon className="mx-auto h-4 w-4" />
+                      </button>
+                    );
+                  })}
                 </div>
                 <div className="flex gap-2">
                   <button
                     type="button"
                     aria-label="Previous showcase slide"
                     onClick={() => goToSlide(-1)}
-                    className="flex h-9 w-9 items-center justify-center border border-[#AAD8D8]/18 bg-[#022226]/70 text-[#AAD8D8] transition-colors hover:border-[#AAD8D8]/45 hover:text-[#F7E28B]"
+                    className="flex h-10 w-10 items-center justify-center border border-[#AAD8D8]/18 bg-[#022226]/70 text-[#AAD8D8] transition-colors hover:border-[#AAD8D8]/45 hover:text-[#F7E28B]"
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </button>
@@ -256,42 +281,11 @@ export default function LandingPage() {
                     type="button"
                     aria-label="Next showcase slide"
                     onClick={() => goToSlide(1)}
-                    className="flex h-9 w-9 items-center justify-center border border-[#AAD8D8]/18 bg-[#022226]/70 text-[#AAD8D8] transition-colors hover:border-[#AAD8D8]/45 hover:text-[#F7E28B]"
+                    className="flex h-10 w-10 items-center justify-center border border-[#AAD8D8]/18 bg-[#022226]/70 text-[#AAD8D8] transition-colors hover:border-[#AAD8D8]/45 hover:text-[#F7E28B]"
                   >
                     <ChevronRight className="h-4 w-4" />
                   </button>
                 </div>
-              </div>
-
-              <div className="border border-[#AAD8D8]/16 bg-[#071F22]/88 p-2 shadow-[0_28px_90px_rgba(0,0,0,.34)] backdrop-blur">
-                <div className="flex h-8 items-center gap-2 border-b border-[#AAD8D8]/10 px-3">
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#F76363]" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#F7E28B]" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#40E0B2]" />
-                  <span className="ml-3 truncate text-[10px] uppercase tracking-[0.15em] text-[#6A9A9A]">admitus workspace</span>
-                </div>
-                <div className="min-h-[320px] bg-[#022226] p-4 sm:p-5">
-                  <ProductPreview kind={slide.preview as PreviewKind} accent={slide.accent} />
-                </div>
-              </div>
-              <div className="mt-5 grid grid-cols-5 gap-2">
-                {showcaseSlides.map((item, index) => {
-                  const ItemIcon = item.icon;
-                  return (
-                    <button
-                      key={item.eyebrow}
-                      type="button"
-                      aria-label={`Show ${item.eyebrow}`}
-                      onClick={() => setActiveSlide(index)}
-                      className={cn(
-                        "group h-12 border border-[#AAD8D8]/12 bg-[#1A4040]/54 text-[#6A9A9A] transition-all hover:border-[#AAD8D8]/35 hover:text-[#F4F2DC]",
-                        index === activeSlide && "border-[#F7E28B]/70 bg-[#F7E28B] text-[#022226]"
-                      )}
-                    >
-                      <ItemIcon className="mx-auto h-4 w-4" />
-                    </button>
-                  );
-                })}
               </div>
             </div>
           </div>
@@ -566,13 +560,13 @@ function SearchPreview({ accent }: { accent: string }) {
         <div className="border border-[#AAD8D8]/12 bg-[#041C20] px-3 py-2">Masters</div>
         <div className="border border-[#AAD8D8]/12 bg-[#041C20] px-3 py-2">Scholarship</div>
       </div>
-      <div className="grid gap-3 md:grid-cols-3">
+      <div className="grid gap-3 md:grid-cols-2">
         {[
           ["MSc Computer Science", "University of Toronto - Toronto, Canada", "72", "CA$58,680/yr", "Due Sep 11"],
           ["MSc Informatics", "TU Munich - Munich, Germany", "87", "EUR 0/yr", "Due Aug 29"],
-          ["MEng Electrical & Computer Engineering", "University of Toronto - Toronto, Canada", "62", "CA$58,680/yr", "Due Aug 11"],
-        ].map(([title, school, score, fee, due]) => (
-          <article key={title} className="min-h-[210px] border border-[#AAD8D8]/10 bg-[#1A4040] p-4">
+          ["MEng Electrical & Computer Engineering", "University of Toronto - Toronto, Canada", "62", "CA$58,680/yr", "Due Aug 11", "hidden xl:block"],
+        ].map(([title, school, score, fee, due, extraClass]) => (
+          <article key={title} className={cn("min-h-[220px] border border-[#AAD8D8]/10 bg-[#1A4040] p-5", extraClass)}>
             <div className="flex justify-between gap-3">
               <h4 className="font-heading text-base font-bold leading-tight text-[#F4F2DC]">{title}</h4>
               <div
