@@ -119,6 +119,9 @@ const navItems = [
 
 type PreviewKind = (typeof showcaseSlides)[number]["preview"];
 
+const generalAdmitusDescription =
+  "AdmitUs searches, compares, and updates program information with specialized LLMs, then helps you track deadlines, outreach, documents, and funding odds from one real workspace.";
+
 export default function LandingPage() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [cursor, setCursor] = useState({ x: 50, y: 45 });
@@ -205,8 +208,18 @@ export default function LandingPage() {
                 <span className="block text-[#F7E28B]">before you <span className="text-[#AAD8D8]">apply.</span></span>
               </h1>
               <p className="mt-7 max-w-md text-[15px] leading-7 text-[#AAD8D8]/72">
-                AdmitUs searches, compares, and updates program information with specialized LLMs, then helps you track deadlines, outreach, documents, and funding odds from one real workspace.
+                {activeSlide === 0 ? generalAdmitusDescription : slide.desc}
               </p>
+              <div className="mt-6 max-w-md border-l border-[#F7E28B]/50 pl-4">
+                <p className="text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: slide.accent }}>
+                  {activeSlide === 0 ? "What AdmitUs does" : slide.eyebrow}
+                </p>
+                <p className="mt-2 text-sm leading-6 text-[#F4F2DC]/82">
+                  {activeSlide === 0
+                    ? "Start with program discovery, then move into applications, professor outreach, documents, deadlines, and funding strategy without leaving the workspace."
+                    : slide.desc}
+                </p>
+              </div>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <Link href="/login">
                   <Button size="lg" className="rounded-none bg-[#F7E28B] px-7 font-heading text-[#022226] hover:bg-[#AAD8D8]">
@@ -261,7 +274,6 @@ export default function LandingPage() {
                   <ProductPreview kind={slide.preview as PreviewKind} accent={slide.accent} />
                 </div>
               </div>
-              <p className="mt-4 max-w-xl text-sm leading-6 text-[#AAD8D8]/70">{slide.desc}</p>
               <div className="mt-5 grid grid-cols-5 gap-2">
                 {showcaseSlides.map((item, index) => {
                   const ItemIcon = item.icon;
@@ -407,7 +419,7 @@ function DashboardPreview({ accent }: { accent: string }) {
         <div className="mb-3 flex items-end justify-between">
           <div>
             <p className="text-[10px] uppercase tracking-[0.18em] text-[#6A9A9A]">Dashboard</p>
-            <h3 className="font-heading text-2xl font-extrabold text-[#F4F2DC]">Welcome back, Hasan</h3>
+            <h3 className="font-heading text-2xl font-extrabold text-[#F4F2DC]">Hey there</h3>
           </div>
           <span className="bg-[#F7E28B] px-3 py-1 text-xs font-bold text-[#022226]">Level 4</span>
         </div>
