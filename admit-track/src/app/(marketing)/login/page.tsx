@@ -20,14 +20,12 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-  const [devVerificationUrl, setDevVerificationUrl] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError("");
     setMessage("");
-    setDevVerificationUrl("");
     if (!email.trim() || !password || (mode === "register" && !name.trim())) return;
     setLoading(true);
 
@@ -49,7 +47,6 @@ export default function LoginPage() {
 
       if (mode === "register") {
         setMessage(data.message || "Check your email to verify your account before signing in.");
-        setDevVerificationUrl(data.devVerificationUrl || "");
         setMode("login");
         setPassword("");
         return;
@@ -66,7 +63,6 @@ export default function LoginPage() {
   async function resendVerification() {
     setError("");
     setMessage("");
-    setDevVerificationUrl("");
     if (!email.trim()) {
       setError("Enter your email first.");
       return;
@@ -84,7 +80,6 @@ export default function LoginPage() {
         return;
       }
       setMessage("If an unverified account exists for that email, a verification link has been sent.");
-      setDevVerificationUrl(data.devVerificationUrl || "");
     } finally {
       setLoading(false);
     }
@@ -188,12 +183,6 @@ export default function LoginPage() {
             {message && (
               <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-800">
                 {message}
-              </div>
-            )}
-
-            {devVerificationUrl && (
-              <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
-                Dev verification link: <a className="break-all underline" href={devVerificationUrl}>{devVerificationUrl}</a>
               </div>
             )}
 

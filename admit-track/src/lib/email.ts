@@ -10,7 +10,7 @@ export async function sendVerificationEmail({ to, name, verificationUrl }: Verif
 
   if (!resendKey) {
     console.info(`[admitus] Verification email for ${to}: ${verificationUrl}`);
-    return { delivered: false, devUrl: verificationUrl };
+    return { delivered: false };
   }
 
   const res = await fetch("https://api.resend.com/emails", {

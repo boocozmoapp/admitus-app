@@ -35,6 +35,6 @@ export async function POST(request: NextRequest) {
 
   const origin = process.env.NEXT_PUBLIC_APP_URL || request.nextUrl.origin;
   const verificationUrl = `${origin}/api/auth/verify?token=${encodeURIComponent(token)}`;
-  const emailResult = await sendVerificationEmail({ to: user.email, name: user.name, verificationUrl });
-  return NextResponse.json({ ok: true, devVerificationUrl: emailResult.devUrl });
+  await sendVerificationEmail({ to: user.email, name: user.name, verificationUrl });
+  return NextResponse.json({ ok: true });
 }
