@@ -22,16 +22,16 @@ import { BrandLogo } from "@/components/brand-logo";
 import { cn } from "@/lib/utils";
 
 const stats = [
-  { value: "12,000+", label: "Programs indexed" },
+  { value: "Live", label: "LLM-updated program intel" },
+  { value: "12,000+", label: "Programs discoverable" },
   { value: "4,800+", label: "Students admitted" },
-  { value: "98%", label: "Deadline hit rate" },
   { value: "40+", label: "Countries covered" },
 ];
 
 const steps = [
   {
     title: "Search and discover",
-    desc: "Browse programs with tuition, deadlines, requirements, and rankings in one focused search.",
+    desc: "Find programs with updated requirements, deadlines, scholarships, rankings, and fit signals surfaced by specialized LLMs.",
     icon: Search,
   },
   {
@@ -63,11 +63,19 @@ const steps = [
 
 const showcaseSlides = [
   {
+    eyebrow: "Program discovery",
+    title: "Find the right program first.",
+    desc: "AdmitUs uses specialized LLMs to surface the latest, updated program information, requirements, deadlines, scholarships, and fit signals.",
+    icon: Search,
+    accent: "#F7E28B",
+    preview: "search",
+  },
+  {
     eyebrow: "Command center",
     title: "Everything moving, nothing lost.",
     desc: "Applications, deadlines, documents, and funding signals stay visible in one focused dashboard.",
     icon: BarChart3,
-    accent: "#F7E28B",
+    accent: "#AAD8D8",
     preview: "dashboard",
   },
   {
@@ -87,17 +95,9 @@ const showcaseSlides = [
     preview: "outreach",
   },
   {
-    eyebrow: "Program search",
-    title: "Shortlist programs without spreadsheet chaos.",
-    desc: "Compare fit, deadlines, language requirements, scholarships, and pipeline status fast.",
-    icon: Search,
-    accent: "#FF9F1C",
-    preview: "search",
-  },
-  {
     eyebrow: "Program chat",
     title: "Ask smarter questions before you apply.",
-    desc: "Use AI guidance that reasons over the program, your profile, and the application context.",
+    desc: "Use specialized AdmitUs LLMs that reason over current program context, your profile, and official admissions details.",
     icon: MessageSquareText,
     accent: "#AAD8D8",
     preview: "chat",
@@ -111,8 +111,8 @@ const programs = [
 ];
 
 const navItems = [
-  { label: "Showcase", href: "#showcase" },
   { label: "Programs", href: "#programs" },
+  { label: "Showcase", href: "#showcase" },
   { label: "How it works", href: "#how-it-works" },
   { label: "Results", href: "#results" },
 ];
@@ -199,13 +199,13 @@ export default function LandingPage() {
           />
           <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[0.82fr_1.18fr]">
             <div>
-              <p className="mb-6 text-xs font-semibold uppercase tracking-[0.22em] text-[#6A9A9A]">The application platform</p>
+              <p className="mb-6 text-xs font-semibold uppercase tracking-[0.22em] text-[#6A9A9A]">Latest admissions intel through specialized LLMs</p>
               <h1 className="font-heading text-5xl font-extrabold leading-none tracking-tight text-[#F4F2DC] sm:text-6xl lg:text-[60px]">
-                Your way in
-                <span className="block text-[#F7E28B]">to every <span className="text-[#AAD8D8]">program.</span></span>
+                Find programs
+                <span className="block text-[#F7E28B]">before you <span className="text-[#AAD8D8]">apply.</span></span>
               </h1>
               <p className="mt-7 max-w-md text-[15px] leading-7 text-[#AAD8D8]/72">
-                Search programs, track deadlines, manage documents, measure professor outreach, and estimate funding odds from one real workspace.
+                AdmitUs searches, compares, and updates program information with specialized LLMs, then helps you track deadlines, outreach, documents, and funding odds from one real workspace.
               </p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <Link href="/login">
@@ -214,7 +214,7 @@ export default function LandingPage() {
                   </Button>
                 </Link>
                 <a href="#how-it-works" className="inline-flex h-11 items-center justify-center border border-[#AAD8D8]/25 px-7 text-sm text-[#F4F2DC] transition-colors hover:border-[#AAD8D8]/60">
-                  See how it works
+                  Explore features
                 </a>
               </div>
             </div>
@@ -323,11 +323,14 @@ export default function LandingPage() {
 
         <section id="programs" className="bg-[#1A4040] px-6 py-20">
           <div className="mx-auto max-w-6xl">
-            <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.22em] text-[#6A9A9A]">Programs</p>
+            <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.22em] text-[#6A9A9A]">Programs first</p>
             <h2 className="font-heading text-4xl font-extrabold leading-tight tracking-tight text-[#F4F2DC]">
-              Find your program.
-              <span className="block text-[#F7E28B]">Save it. Apply.</span>
+              Start with current information.
+              <span className="block text-[#F7E28B]">Then build the application.</span>
             </h2>
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-[#AAD8D8]/72">
+              AdmitUs uses specialized LLMs to keep program discovery useful: latest admissions details, scholarship context, eligibility signals, and practical next steps instead of stale database-only cards.
+            </p>
             <div className="mt-10 grid gap-3 lg:grid-cols-3">
               {programs.map((program) => (
                 <article key={program.program} className="border border-[#AAD8D8]/10 bg-[#022226] p-6">
@@ -391,57 +394,67 @@ function ProductPreview({ kind, accent }: { kind: PreviewKind; accent: string })
 
 function DashboardPreview({ accent }: { accent: string }) {
   return (
-    <div className="grid h-full gap-4 lg:grid-cols-[1fr_210px]">
+    <div className="grid min-h-[320px] gap-3 lg:grid-cols-[120px_1fr]">
+      <aside className="hidden border border-[#AAD8D8]/10 bg-[#041C20] p-3 lg:block">
+        <p className="font-heading text-sm font-extrabold text-[#F7E28B]">AdmitUs</p>
+        <div className="mt-5 space-y-2 text-[11px] text-[#AAD8D8]/70">
+          {["Dashboard", "Search", "Applications", "Supervisors", "Insights"].map((item, index) => (
+            <div key={item} className={cn("px-2 py-2", index === 0 && "bg-[#1A4040] text-[#F4F2DC]")}>{item}</div>
+          ))}
+        </div>
+      </aside>
       <div>
-        <div className="mb-4 flex items-end justify-between">
+        <div className="mb-3 flex items-end justify-between">
           <div>
             <p className="text-[10px] uppercase tracking-[0.18em] text-[#6A9A9A]">Dashboard</p>
-            <h3 className="font-heading text-2xl font-extrabold text-[#F4F2DC]">Fall 2026 pipeline</h3>
+            <h3 className="font-heading text-2xl font-extrabold text-[#F4F2DC]">Welcome back, Hasan</h3>
           </div>
-          <span className="bg-[#F7E28B] px-3 py-1 text-xs font-bold text-[#022226]">62% ready</span>
+          <span className="bg-[#F7E28B] px-3 py-1 text-xs font-bold text-[#022226]">Level 4</span>
         </div>
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-4">
           {[
-            ["Applications", "14", "+3 this week"],
-            ["Deadlines", "5", "next 30 days"],
-            ["Funding signals", "72", "strong"],
-          ].map(([label, value, sub]) => (
-            <div key={label} className="border border-[#AAD8D8]/10 bg-[#1A4040] p-4">
+            ["Active", "14"],
+            ["Due soon", "5"],
+            ["Emails", "38"],
+            ["FAFO", "72"],
+          ].map(([label, value]) => (
+            <div key={label} className="border border-[#AAD8D8]/10 bg-[#1A4040] p-3">
               <p className="text-[10px] uppercase tracking-[0.13em] text-[#6A9A9A]">{label}</p>
-              <p className="mt-2 font-heading text-3xl font-extrabold text-[#F4F2DC]">{value}</p>
-              <p className="text-xs text-[#AAD8D8]/70">{sub}</p>
+              <p className="mt-1 font-heading text-2xl font-extrabold text-[#F4F2DC]">{value}</p>
             </div>
           ))}
         </div>
-        <div className="mt-4 space-y-3">
-          {[
-            ["McGill - MSc CS", "Submitted", "100%"],
-            ["TU Munich - Informatics", "SOP review", "74%"],
-            ["Sciences Po - Public Affairs", "Documents", "48%"],
-          ].map(([name, status, progress]) => (
-            <div key={name} className="border border-[#AAD8D8]/10 bg-[#092B2F] p-4">
-              <div className="mb-2 flex justify-between gap-4 text-sm">
-                <span className="font-semibold text-[#F4F2DC]">{name}</span>
-                <span className="text-[#AAD8D8]">{status}</span>
+        <div className="mt-3 grid gap-3 lg:grid-cols-[1fr_190px]">
+          <div className="space-y-2">
+            {[
+              ["McGill - MSc CS", "submitted", "100%"],
+              ["TU Munich - Informatics", "preparing", "74%"],
+              ["Sciences Po - Public Affairs", "documents", "48%"],
+            ].map(([name, status, progress]) => (
+              <div key={name} className="border border-[#AAD8D8]/10 bg-[#092B2F] p-3">
+                <div className="mb-2 flex justify-between gap-4 text-xs">
+                  <span className="font-semibold text-[#F4F2DC]">{name}</span>
+                  <span className="text-[#AAD8D8]">{status}</span>
+                </div>
+                <div className="h-1.5 bg-[#AAD8D8]/10">
+                  <div className="h-full" style={{ width: progress, backgroundColor: accent }} />
+                </div>
               </div>
-              <div className="h-1.5 bg-[#AAD8D8]/10">
-                <div className="h-full" style={{ width: progress, backgroundColor: accent }} />
-              </div>
+            ))}
+          </div>
+          <div className="border border-[#AAD8D8]/10 bg-[#1A4040] p-3">
+            <p className="text-[10px] uppercase tracking-[0.18em] text-[#6A9A9A]">Next move</p>
+            <div className="mt-3 space-y-3">
+              {["Email Prof. Chen", "Upload transcript", "Check funding page"].map((item, index) => (
+                <div key={item} className="flex items-center gap-2">
+                  <span className="flex h-6 w-6 items-center justify-center bg-[#022226] text-[10px] font-bold" style={{ color: index === 0 ? accent : "#AAD8D8" }}>
+                    {index + 1}
+                  </span>
+                  <span className="text-xs text-[#F4F2DC]/85">{item}</span>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
-      <div className="border border-[#AAD8D8]/10 bg-[#1A4040] p-4">
-        <p className="text-[10px] uppercase tracking-[0.18em] text-[#6A9A9A]">Next move</p>
-        <div className="mt-5 space-y-4">
-          {["Email Prof. Chen", "Upload transcript", "Check funding page", "Finalize SOP"].map((item, index) => (
-            <div key={item} className="flex items-center gap-3">
-              <span className="flex h-7 w-7 items-center justify-center bg-[#022226] text-xs font-bold" style={{ color: index === 0 ? accent : "#AAD8D8" }}>
-                {index + 1}
-              </span>
-              <span className="text-sm text-[#F4F2DC]/85">{item}</span>
-            </div>
-          ))}
+          </div>
         </div>
       </div>
     </div>
@@ -526,37 +539,55 @@ function OutreachPreview({ accent }: { accent: string }) {
 function SearchPreview({ accent }: { accent: string }) {
   return (
     <div>
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-[10px] uppercase tracking-[0.18em] text-[#6A9A9A]">University search</p>
-          <h3 className="font-heading text-2xl font-extrabold text-[#F4F2DC]">37 programs across 20 universities</h3>
+          <h3 className="font-heading text-2xl font-extrabold text-[#F4F2DC]">University Search</h3>
+          <p className="text-sm text-[#6A9A9A]">Found 37 programs across 20 universities</p>
         </div>
-        <span className="border border-[#AAD8D8]/15 px-3 py-2 text-xs text-[#AAD8D8]">All programs</span>
+        <div className="flex overflow-hidden rounded-full border border-[#AAD8D8]/20 bg-[#F4F2DC] p-1 text-xs font-bold text-[#022226]">
+          <span className="rounded-full bg-[#F7E28B] px-4 py-2">All Programs</span>
+          <span className="px-4 py-2 text-[#6A9A9A]">Saved (0)</span>
+        </div>
+      </div>
+      <div className="mb-3 grid gap-2 text-xs text-[#AAD8D8] sm:grid-cols-[1fr_110px_110px]">
+        <div className="border border-[#AAD8D8]/12 bg-[#041C20] px-3 py-2">Search: Computer Science, Germany, funding...</div>
+        <div className="border border-[#AAD8D8]/12 bg-[#041C20] px-3 py-2">Masters</div>
+        <div className="border border-[#AAD8D8]/12 bg-[#041C20] px-3 py-2">Scholarship</div>
       </div>
       <div className="grid gap-3 md:grid-cols-3">
         {[
-          ["MSc Computer Science", "University of Toronto", "72", "CA$58,680/yr"],
-          ["MSc Informatics", "TU Munich", "87", "EUR 0/yr"],
-          ["MEng Electrical Engineering", "McGill University", "62", "CA$31,500/yr"],
-        ].map(([title, school, score, fee]) => (
-          <article key={title} className="border border-[#AAD8D8]/10 bg-[#1A4040] p-4">
+          ["MSc Computer Science", "University of Toronto - Toronto, Canada", "72", "CA$58,680/yr", "Due Sep 11"],
+          ["MSc Informatics", "TU Munich - Munich, Germany", "87", "EUR 0/yr", "Due Aug 29"],
+          ["MEng Electrical & Computer Engineering", "University of Toronto - Toronto, Canada", "62", "CA$58,680/yr", "Due Aug 11"],
+        ].map(([title, school, score, fee, due]) => (
+          <article key={title} className="min-h-[210px] border border-[#AAD8D8]/10 bg-[#1A4040] p-4">
             <div className="flex justify-between gap-3">
-              <h4 className="font-heading text-base font-bold leading-snug text-[#F4F2DC]">{title}</h4>
-              <span className="text-sm font-bold" style={{ color: accent }}>{score}</span>
+              <h4 className="font-heading text-base font-bold leading-tight text-[#F4F2DC]">{title}</h4>
+              <div
+                className="grid h-12 w-12 shrink-0 place-items-center rounded-full border-[5px] bg-[#1A4040] text-xs font-extrabold"
+                style={{ borderColor: accent, color: accent }}
+              >
+                {score}
+              </div>
             </div>
-            <p className="mt-3 text-sm text-[#6A9A9A]">{school}</p>
-            <div className="mt-4 space-y-2 text-xs text-[#F4F2DC]/86">
+            <p className="mt-2 text-sm leading-snug text-[#6A9A9A]">{school}</p>
+            <div className="mt-3 space-y-2 text-xs text-[#F4F2DC]/86">
               <p>Masters - English - Scholarship</p>
               <p>{fee}</p>
-              <p>Fall 2026 - Due Aug 29</p>
+              <p>Fall 2026 - {due}</p>
             </div>
-            <div className="mt-4 flex gap-2 text-[10px] font-bold text-[#022226]">
+            <div className="mt-3 flex flex-wrap gap-2 text-[10px] font-bold text-[#022226]">
               <span className="bg-[#F7E28B] px-2 py-1">IELTS 7+</span>
               <span className="bg-[#AAD8D8] px-2 py-1">GPA 3.3+</span>
+            </div>
+            <div className="mt-4 flex gap-2">
+              <span className="border border-[#AAD8D8]/20 px-3 py-1 text-xs font-bold text-[#F4F2DC]">Details</span>
+              <span className="bg-[#F7E28B] px-3 py-1 text-xs font-bold text-[#022226]">+ Pipeline</span>
             </div>
           </article>
         ))}
       </div>
+      <p className="mt-3 text-xs text-[#6A9A9A]">LLM-fetched and refreshed with source-aware admissions context.</p>
     </div>
   );
 }
