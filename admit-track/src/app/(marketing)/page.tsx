@@ -6,11 +6,20 @@ import {
   ArrowRight,
   BarChart3,
   BookmarkCheck,
+  Bookmark,
+  Calendar,
+  DollarSign,
+  Eye,
   Gauge,
-  Mail,
+  Globe,
+  GraduationCap,
+  MapPin,
+  Medal,
   MessageSquareText,
+  Plus,
   Search,
   Sparkles,
+  Users2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BrandLogo } from "@/components/brand-logo";
@@ -23,8 +32,17 @@ const features = [
     description:
       "Search across universities with updated requirements, deadlines, funding notes, and fit signals surfaced through AdmitUs specialized LLMs.",
     icon: Search,
-    accent: "#022226",
+    accent: "#11C997",
     preview: "search",
+  },
+  {
+    label: "Professors",
+    title: "Find professors who fit your research.",
+    description:
+      "Match your interests to faculty profiles, then shape a cold-email and follow-up strategy around research fit instead of generic outreach.",
+    icon: Users2,
+    accent: "#0F766E",
+    preview: "professors",
   },
   {
     label: "Pipeline",
@@ -43,15 +61,6 @@ const features = [
     icon: Gauge,
     accent: "#5B6CFF",
     preview: "funding",
-  },
-  {
-    label: "Outreach",
-    title: "Track professor conversations clearly.",
-    description:
-      "Organize faculty targets, replies, follow-ups, and research-fit notes before the thread gets buried in your inbox.",
-    icon: Mail,
-    accent: "#0F766E",
-    preview: "outreach",
   },
   {
     label: "Chat",
@@ -106,7 +115,7 @@ export default function LandingPage() {
       <header className="sticky top-0 z-50 border-b border-[#022226]/8 bg-[#F8F5E6]/88 backdrop-blur-xl">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
           <Link href="/" aria-label="AdmitUs home">
-            <BrandLogo markClassName="h-10 w-9" textClassName="text-lg" />
+            <BrandLogo tone="dark" markClassName="h-10 w-9" textClassName="text-lg" />
           </Link>
           <nav className="hidden items-center gap-8 md:flex">
             {[
@@ -132,7 +141,7 @@ export default function LandingPage() {
           <div className="mx-auto max-w-7xl">
             <div className="mx-auto max-w-4xl text-center">
               <p className="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#6A9A9A]">
-                Admissions intelligence for international students
+                Admissions intelligence and management workspace
               </p>
               <h1 className="font-heading text-5xl font-extrabold leading-[0.98] tracking-tight text-[#022226] md:text-7xl">
                 Find the right program before you apply.
@@ -289,7 +298,7 @@ export default function LandingPage() {
 
       <footer className="border-t border-[#022226]/8 px-6 py-8">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 text-sm text-[#1A4040]/60 sm:flex-row sm:items-center sm:justify-between">
-          <BrandLogo markClassName="h-8 w-7" textClassName="text-base" />
+          <BrandLogo tone="dark" markClassName="h-8 w-7" textClassName="text-base" />
           <p>Copyright 2026 AdmitUs. All rights reserved.</p>
         </div>
       </footer>
@@ -300,12 +309,39 @@ export default function LandingPage() {
 function ProductPreview({ kind, accent }: { kind: PreviewKind; accent: string }) {
   if (kind === "dashboard") return <DashboardPreview accent={accent} />;
   if (kind === "funding") return <FundingPreview accent={accent} />;
-  if (kind === "outreach") return <OutreachPreview accent={accent} />;
+  if (kind === "professors") return <ProfessorsPreview accent={accent} />;
   if (kind === "chat") return <ChatPreview accent={accent} />;
   return <SearchPreview accent={accent} />;
 }
 
 function SearchPreview({ accent }: { accent: string }) {
+  const searchPrograms = [
+    {
+      title: "MSc Informatics",
+      school: "TU Munich - Munich, Germany",
+      score: "87",
+      rank: "#29 QS",
+      tuition: "EUR 0/yr",
+      intake: "Fall 2026",
+      deadline: "Due Aug 29",
+      ielts: "IELTS >=6.5",
+      toefl: "TOEFL >88",
+      gpa: "GPA >=3",
+    },
+    {
+      title: "MSc Computer Science",
+      school: "University of Toronto - Toronto, Canada",
+      score: "72",
+      rank: "#21 QS",
+      tuition: "CA$58,680/yr",
+      intake: "Fall 2026",
+      deadline: "Due Sep 11",
+      ielts: "IELTS >=7",
+      toefl: "TOEFL >=100",
+      gpa: "GPA >=3.5",
+    },
+  ];
+
   return (
     <div className="space-y-5">
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -323,25 +359,67 @@ function SearchPreview({ accent }: { accent: string }) {
         <div className="rounded-2xl border border-[#AAD8D8]/12 bg-[#041C20] px-4 py-3">Masters</div>
         <div className="rounded-2xl border border-[#AAD8D8]/12 bg-[#041C20] px-4 py-3">Scholarship</div>
       </div>
-      <div className="grid gap-4 md:grid-cols-2">
-        {[
-          ["MSc Informatics", "TU Munich - Munich, Germany", "EUR 0/yr", "87"],
-          ["MSc Computer Science", "University of Toronto - Canada", "CA$58,680/yr", "72"],
-        ].map(([title, school, tuition, score]) => (
-          <article key={title} className="rounded-3xl border border-[#AAD8D8]/10 bg-[#1A4040] p-5">
-            <div className="flex justify-between gap-4">
-              <div>
-                <h4 className="font-heading text-xl font-extrabold leading-tight text-[#F8F5E6]">{title}</h4>
-                <p className="mt-2 text-sm leading-6 text-[#AAD8D8]/70">{school}</p>
+      <div className="grid gap-4 xl:grid-cols-2">
+        {searchPrograms.map((program) => (
+          <article key={program.title} className="rounded-[1.4rem] border border-[#AAD8D8]/10 bg-[#1A4040] p-5">
+            <div className="flex items-start justify-between gap-4">
+              <div className="min-w-0">
+                <h4 className="font-heading text-xl font-extrabold leading-tight text-[#F8F5E6]">{program.title}</h4>
+                <p className="mt-2 flex items-start gap-2 text-sm leading-6 text-[#AAD8D8]/72">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0" />
+                  {program.school}
+                </p>
               </div>
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#022226] text-sm font-extrabold" style={{ color: accent }}>
-                {score}
-              </span>
+              <div
+                className="relative grid h-14 w-14 shrink-0 place-items-center rounded-full border-[5px] bg-[#1A4040] text-sm font-extrabold"
+                style={{ borderColor: accent, color: accent }}
+              >
+                {program.score}
+              </div>
+              <Bookmark className="h-5 w-5 shrink-0 text-[#AAD8D8]/72" />
             </div>
-            <div className="mt-5 flex flex-wrap gap-2 text-xs font-semibold">
-              <span className="rounded-full bg-[#F7E28B] px-3 py-1.5 text-[#022226]">Scholarship</span>
-              <span className="rounded-full bg-[#AAD8D8]/16 px-3 py-1.5 text-[#AAD8D8]">{tuition}</span>
-              <span className="rounded-full bg-[#AAD8D8]/16 px-3 py-1.5 text-[#AAD8D8]">Fall 2026</span>
+
+            <div className="mt-5 grid gap-2 text-sm text-[#F8F5E6]">
+              <div className="flex items-center gap-2">
+                <GraduationCap className="h-4 w-4 text-[#F8F5E6]" />
+                <span className="font-semibold">Masters</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Globe className="h-4 w-4 text-[#F8F5E6]" />
+                <span className="font-semibold">English</span>
+              </div>
+              <div className="flex items-center gap-2 text-[#49F2B3]">
+                <Sparkles className="h-4 w-4" />
+                <span className="font-semibold">Scholarship</span>
+              </div>
+            </div>
+
+            <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold">
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#2E4A72] px-3 py-1.5 text-[#AFC4FF]">
+                <Medal className="h-3.5 w-3.5" /> {program.rank}
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#AAD8D8]/12 px-3 py-1.5 text-[#AAD8D8]">
+                <DollarSign className="h-3.5 w-3.5" /> {program.tuition}
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#AAD8D8]/12 px-3 py-1.5 text-[#AAD8D8]">
+                <Calendar className="h-3.5 w-3.5" /> {program.intake}
+              </span>
+              <span className="rounded-full bg-[#AAD8D8]/12 px-3 py-1.5 text-[#AAD8D8]">{program.deadline}</span>
+            </div>
+
+            <div className="mt-4 flex flex-wrap gap-2 text-[11px] font-bold text-[#F8F5E6]">
+              {[program.ielts, program.toefl, program.gpa].map((tag) => (
+                <span key={tag} className="rounded-full border border-[#AAD8D8]/18 px-3 py-1.5">{tag}</span>
+              ))}
+            </div>
+
+            <div className="mt-5 flex items-center gap-2">
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#AAD8D8]/18 px-4 py-2 text-sm font-bold text-[#F8F5E6]">
+                <Eye className="h-4 w-4" /> Details
+              </span>
+              <span className="inline-flex items-center gap-2 rounded-full bg-[#F7E28B] px-4 py-2 text-sm font-bold text-[#022226]">
+                <Plus className="h-4 w-4" /> Pipeline
+              </span>
             </div>
           </article>
         ))}
@@ -437,24 +515,42 @@ function FundingPreview({ accent }: { accent: string }) {
   );
 }
 
-function OutreachPreview({ accent }: { accent: string }) {
+function ProfessorsPreview({ accent }: { accent: string }) {
   return (
-    <div className="grid gap-4">
-      {[
-        ["Prof. Amina Shah", "Positive reply", "Meeting scheduled", "92%"],
-        ["Dr. Lukas Weber", "Opened twice", "Follow up in 2 days", "64%"],
-        ["Prof. Sarah Chen", "No reply", "Rewrite subject line", "31%"],
-      ].map(([name, status, action, score]) => (
-        <div key={name} className="rounded-3xl bg-[#092B2F] p-5">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="font-heading text-xl font-extrabold text-[#F8F5E6]">{name}</p>
-              <p className="mt-1 text-sm text-[#AAD8D8]/70">{status} - {action}</p>
-            </div>
-            <span className="text-sm font-bold" style={{ color: accent }}>{score}</span>
-          </div>
+    <div className="grid gap-5 lg:grid-cols-[1fr_230px]">
+      <div className="space-y-4">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#6A9A9A]">Research-fit shortlist</p>
+          <h3 className="mt-2 font-heading text-3xl font-extrabold text-[#F8F5E6]">Faculty matched to your topic</h3>
         </div>
-      ))}
+        {[
+          ["Prof. Amina Shah", "NLP for education", "Lead with your thesis dataset", "92%"],
+          ["Dr. Lukas Weber", "Human-computer interaction", "Ask about current lab openings", "76%"],
+          ["Prof. Sarah Chen", "Applied machine learning", "Rewrite subject around project fit", "64%"],
+        ].map(([name, research, action, score]) => (
+          <div key={name} className="rounded-3xl bg-[#092B2F] p-5">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="font-heading text-xl font-extrabold text-[#F8F5E6]">{name}</p>
+                <p className="mt-1 text-sm text-[#AAD8D8]/70">{research} - {action}</p>
+              </div>
+              <span className="text-sm font-bold" style={{ color: accent }}>{score}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="rounded-3xl bg-[#1A4040] p-5">
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#6A9A9A]">Cold email strategy</p>
+        <div className="mt-6 space-y-4 text-sm text-[#AAD8D8]/75">
+          <p><span className="font-bold text-[#F8F5E6]">1.</span> Open with research overlap.</p>
+          <p><span className="font-bold text-[#F8F5E6]">2.</span> Mention one specific paper or lab project.</p>
+          <p><span className="font-bold text-[#F8F5E6]">3.</span> Follow up after 5-7 days with a shorter note.</p>
+        </div>
+        <div className="mt-8 rounded-2xl bg-[#022226] p-4">
+          <p className="text-xs text-[#6A9A9A]">Reply ratio target</p>
+          <p className="mt-2 font-heading text-3xl font-extrabold text-[#F8F5E6]">30%+</p>
+        </div>
+      </div>
     </div>
   );
 }

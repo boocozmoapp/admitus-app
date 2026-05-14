@@ -6,6 +6,7 @@ type BrandLogoProps = {
   textClassName?: string;
   taglineClassName?: string;
   className?: string;
+  tone?: "brand" | "dark";
 };
 
 export function AdmitusMark({ className }: { className?: string }) {
@@ -34,15 +35,19 @@ export function BrandLogo({
   textClassName,
   taglineClassName,
   className,
+  tone = "brand",
 }: BrandLogoProps) {
+  const admitClassName = tone === "dark" ? "text-[#022226]" : "text-[#F7E28B]";
+  const usClassName = tone === "dark" ? "text-[#1A4040]" : "text-[#AAD8D8]";
+
   return (
     <div className={cn("flex items-center gap-3", className)}>
       <AdmitusMark className={markClassName} />
       {!compact && (
         <div className="leading-none">
           <div className={cn("font-heading text-xl font-extrabold tracking-tight", textClassName)}>
-            <span className="text-[#F7E28B]">Admit</span>
-            <span className="text-[#AAD8D8]">Us</span>
+            <span className={admitClassName}>Admit</span>
+            <span className={usClassName}>Us</span>
           </div>
           <div className={cn("mt-1 text-[10px] italic tracking-[0.03em] text-[#6A9A9A]", taglineClassName)}>
             your way in.
