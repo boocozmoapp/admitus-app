@@ -370,12 +370,7 @@ function SearchPreview({ accent }: { accent: string }) {
                   {program.school}
                 </p>
               </div>
-              <div
-                className="relative grid h-14 w-14 shrink-0 place-items-center rounded-full border-[5px] bg-[#1A4040] text-sm font-extrabold"
-                style={{ borderColor: accent, color: accent }}
-              >
-                {program.score}
-              </div>
+              <LandingFitScoreRing score={Number(program.score)} accent={accent} />
               <Bookmark className="h-5 w-5 shrink-0 text-[#AAD8D8]/72" />
             </div>
 
@@ -424,6 +419,34 @@ function SearchPreview({ accent }: { accent: string }) {
           </article>
         ))}
       </div>
+    </div>
+  );
+}
+
+function LandingFitScoreRing({ score, accent }: { score: number; accent: string }) {
+  const radius = 22;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (score / 100) * circumference;
+
+  return (
+    <div className="relative h-16 w-16 shrink-0">
+      <svg width="64" height="64" viewBox="0 0 64 64" className="-rotate-90">
+        <circle cx="32" cy="32" r={radius} fill="none" stroke="rgba(170,216,216,0.16)" strokeWidth="5" />
+        <circle
+          cx="32"
+          cy="32"
+          r={radius}
+          fill="none"
+          stroke={accent}
+          strokeWidth="5"
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          strokeLinecap="round"
+        />
+      </svg>
+      <span className="absolute inset-0 grid place-items-center text-sm font-extrabold" style={{ color: accent }}>
+        {score}
+      </span>
     </div>
   );
 }
